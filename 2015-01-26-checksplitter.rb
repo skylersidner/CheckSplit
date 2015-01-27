@@ -1,7 +1,12 @@
-Class Checksplitter
+require 'pry'
+
+class Checksplitter
   def initialize(par1)
     @check = par1
-    @percent = 15
+    @percent = 15.0
+    @group_num = 1
+    @tip = 0
+    @tip = 0
   end
 
   def set_group_num(x)
@@ -40,3 +45,6 @@ Class Checksplitter
     @per_person = (@total / @groupnum)
     puts "Split evenly, each person owes $#{@per_person}."
   end
+end
+
+binding.pry
