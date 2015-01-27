@@ -5,8 +5,6 @@ class Checksplitter
     @check = par1
     @percent = 15.0
     @group_num = 1
-    @tip = 0
-    @tip = 0
   end
 
   def set_group_num(x)
@@ -34,16 +32,26 @@ class Checksplitter
   end
   
   def get_tip
-    @tip = (@check * (@percent / 100))
+    puts "The tip amount would be $#{@check * (@percent / 100)}."
   end
   
   def get_total
     @total = (@check + @tip)
+    puts "The total amount--with tip--would be $#{@total}."
   end
   
   def get_per_person
-    @per_person = (@total / @groupnum)
+    @per_person = (@total / @group_num)
     puts "Split evenly, each person owes $#{@per_person}."
+  end
+  
+  def test
+    puts @check
+    puts @percent
+    puts @group_num
+    puts @tip
+    puts @total
+    puts @per_person
   end
 end
 
