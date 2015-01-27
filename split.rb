@@ -17,16 +17,16 @@ class Split
   # Methods to call specifics of operations
   def tip
     perc = (@percent * 100)
-    puts "The tip at #{perc} percent would be $%.2f." % @tip
+    @cost * @percent
   end
 
   def total_cost
-    puts "The total cost, with tip, would be $%.2f." % @total_cost
+    @cost + tip
   end
   
   # Solution
   def per_person
-    puts "Split evenly, the cost per person would be $%.2f." % (@total_cost / @guests)
+    total_cost / @guests
   end
 end
 
