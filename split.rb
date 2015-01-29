@@ -73,7 +73,7 @@ class SplitCheck
     @cost * (@percent.to_f / 100)
   end
 
-  # Private: #total_cost 
+  # Public: #total_cost 
   # Calculates the total cost to be split among the guests
   # 
   # Parameters: None
@@ -87,7 +87,7 @@ class SplitCheck
     @cost + tip
   end
 
-  # Private: #per_person
+  # Public: #per_person
   # 
   # 
   # Parameters: None
@@ -137,46 +137,40 @@ class DinnerClub
     @member_totals[name] = 0.0
   end
   
-  # Private: #
+  # Private: #update_totals
   # 
-  # 
-  # Parameters:
-  # 
-  # Returns:
+  # Used to increment the amount each member has spent
   #
+  # Parameters:
+  # name    - String: The name of the member (hash key)
+  # amount  - Float: The amount to added to their total balance (hash value)
+  #
+  # Returns:
+  # @member_totals hash
   #
   # State Changes:
-  #
+  # Increments the @member_totals value for the corresponding hash
   
   def update_totals(name, amount)
     @member_totals[name] += amount
   end
-  
-  # Private: #
-  # 
-  # 
-  # Parameters:
-  # 
-  # Returns:
-  #
-  #
-  # State Changes:
-  #
-  
-  def update_event_log(location, diners)
-    @event_log[location] = diners
-  end
     
-  # Private: #
-  # 
+  # Public: #dinner_event
+  #
+  # Creates a new SplitCheck object as a dinner event.
   # 
   # Parameters:
+  # name    - String: Name of the event
+  # cost    - Float: Cost of the bill, pre-tip
+  # percent - Integer: Tip percentage
+  # guests  - String list: Each guest, by name, attending the event
   # 
   # Returns:
-  #
+  # @check, the new SplitCheck instance
   #
   # State Changes:
-  #
+  # @event stores the event name; @who_attended stores an array of the attending people;
+  # @check becomes a new SplitCheck object;
   
   def dinner_event(name, cost, percent, *guests)
     @event = name
@@ -184,16 +178,19 @@ class DinnerClub
     @check = SplitCheck.new(cost, percent, @who_attended.length)
   end
   
-  # Private: #
-  # 
-  # 
-  # Parameters:
-  # 
-  # Returns:
+  # Public: #log_event
   #
+  # Determines the cost per attending person, adds that to their total, and logs the event;
+  # people present at the event, but not part of the DinnerClub are added to the list.
+  # 
+  # Parameters: None
+  #
+  # Returns:
+  # An array of all those attending
   #
   # State Changes:
-  #
+  # @member_totals is updated for each person attending, including new members; @event_log is
+  # updated with a list of those who attended that specific event.
   
   def log_event
     @who_attended.each do |name|
@@ -207,16 +204,20 @@ class DinnerClub
     end
   end
   
-  # Private: #
-  # 
+  # Public: #log_event_treat
+  #
+  # When one member is paying, you apply this method to charge them and log the event.
   # 
   # Parameters:
-  # 
-  # Returns:
+  # name - String: Name of the person treating for this event
   #
+  # Returns:
+  # 
   #
   # State Changes:
-  #
+  # @member_totals is updated for the person treating; only creates a new member if they are
+  # the person treating; @event_log is updated with a list of those who attended that specific
+  # event.
   
   def log_event_treat(name)
     if @member_totals.has_key?(name)
