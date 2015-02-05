@@ -1,5 +1,6 @@
 require 'pry'
 require_relative 'CheckSplitter'
+require 'sqlite3'
 
 class DinnerClub
   
@@ -15,6 +16,8 @@ class DinnerClub
       new_member(person)
     end #.each
     @event_log = Hash.new
+    # DATABASE = SQLite3::Database.new("#{name}data.db")
+    # DATABASE.results_as_hash = true
   end #method
   
   # Public: #new_member
@@ -25,7 +28,7 @@ class DinnerClub
   # name - String: Name of the new member to be added.
   # 
   # Returns:
-  # The new member's name and base spent value of 0.0
+  # The new member's hash assignment in @member_totals (with a 0.0 value).
   #
   # State Changes:
   # Pushes a new value to @members; assigns a new key-value pair to @member_totals
@@ -44,13 +47,14 @@ class DinnerClub
   # amount  - Float: The amount to added to their total balance (hash value)
   #
   # Returns:
-  # @member_totals hash
+  # New value for that member's hash key in @member_totals
   #
   # State Changes:
   # Increments the @member_totals value for the corresponding hash
   
   def update_totals(name, amount)
     @member_totals[name] += amount
+    @member_totals[name]
   end
     
   # Public: #dinner_event
